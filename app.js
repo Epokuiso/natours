@@ -2,6 +2,9 @@ const express = require ('express');
 const fileSystem = require('fs');
 
 const app = express ();
+
+app.use (express.json());
+
 /*
 app.get ('/', (request, response) =>
 {
@@ -27,6 +30,21 @@ app.get ('/api/tours', (request, response) =>
         });
 });
 
+app.post ('/api/tours', (request, response) =>
+{
+    const newTourId = tours[tours.length - 1].id + 1;
+    const newTour = { id: newTourId, ...request.body };
+    tours.push (newTour);
+
+    fileSystem.writeFile (`${__dirname}/dev-data/data/tours-simple.json`, JSON.stringify(tours), error => 
+    {
+        response.status (201)
+        .json ({
+            status: "success",
+            data: newTour 
+        });
+    });
+});
 
 const PORT = 3000;
 app.listen(PORT, () => 
