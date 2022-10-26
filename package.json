@@ -1,0 +1,25 @@
+{
+  "name": "natours",
+  "version": "1.0.0",
+  "description": "NodeJS learning project from @jonasschmedtmann course.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Epokuiso/natours.git"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "javascript",
+    "mongodb"
+  ],
+  "author": "Epokuiso",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Epokuiso/natours/issues"
+  },
+  "homepage": "https://github.com/Epokuiso/natours#readme"
+}
