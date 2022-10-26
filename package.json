@@ -4,6 +4,7 @@
   "description": "NodeJS learning project from @jonasschmedtmann course.",
   "main": "app.js",
   "scripts": {
+    "development": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -16,10 +17,17 @@
     "javascript",
     "mongodb"
   ],
-  "author": "Epokuiso",
+  "author": "Jonas Schmedtmann",
+  "learner": "Emanuel Moura (Epokuiso)",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Epokuiso/natours/issues"
   },
-  "homepage": "https://github.com/Epokuiso/natours#readme"
+  "homepage": "https://github.com/Epokuiso/natours#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
 }
