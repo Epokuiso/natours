@@ -30,6 +30,16 @@ app.get ('/api/tours', (request, response) =>
         });
 });
 
+app.get ('/api/tours/:id', (request, response) => 
+{
+    const { id } = request.params;
+    const requestedTour = tours.find (element => element.id == id);
+
+    if (requestedTour)
+        return response.status (200).json ({ status: "success", data: requestedTour });
+    response.status (400).json ({ status: "failed", message: "Invalid Id" });
+});
+
 app.post ('/api/tours', (request, response) =>
 {
     const newTourId = tours[tours.length - 1].id + 1;
