@@ -1,10 +1,11 @@
 const express = require ('express');
-const fileSystem = require('fs');
-const morgan = require('morgan');
+const fileSystem = require ('fs');
+const morgan = require ('morgan');
+
+const tourRouter = require ('./routes/tourRoutes');
+const userRouter = require ('./routes/userRoutes');
 
 const app = express ();
-
-
 /*----------------------------------------------------------
     1 - Middlewares
 -----------------------------------------------------------*/
@@ -23,129 +24,10 @@ app.use ((request, response, next) =>
     next ();
 });
 
-let tours = JSON.parse(fileSystem.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`));
 /*----------------------------------------------------------
     2 - Route Handlers 
 -----------------------------------------------------------*/
-const getAllTours = (request, response) => 
-{
-    response.status (200).json ({
-        status: "success",
-        results: tours.length,
-        requestedTime: request.requestedTime,
-        data: tours 
-    });
-}
 
-const getTour = (request, response) => 
-{
-    const { id } = request.params;
-    const requestedTour = tours.find (tour => tour.id == id);
-
-    if (requestedTour)
-        return response.status (200).json ({ status: "success", data: requestedTour });
-    response.status (400).json ({ status: "failed", message: "Invalid Id" });
-}
-
-const createTour = (request, response) =>
-{
-    const newTourId = tours[tours.length - 1].id + 1;
-    const newTour = { id: newTourId, ...request.body };
-    tours.push (newTour);
-
-    fileSystem.writeFile (`${__dirname}/dev-data/data/tours-simple.json`, JSON.stringify(tours), error => 
-    {
-        response.status (201)
-        .json ({
-            status: "success",
-            data: newTour 
-        });
-    });
-}
-
-const updateTour = (request, response) =>
-{
-    
-    const propertiesToUpdate = Object.keys (request.body);
-    let updatedTour = tours.find (tour => tour.id == request.params.id);
-
-    if (!updatedTour)
-        return response.status (400).json ({ status: "failed", message: "Invalid Id" });
-    
-    propertiesToUpdate.forEach (property => 
-    {
-        if (property == 'duration')
-            updatedTour[property] = +request.body[property]
-        updatedTour[property] = request.body[property]    
-    });
-    tours[tours.findIndex(tour => tour.id == updatedTour.id)] = updatedTour;
-    
-    fileSystem.writeFile (`${__dirname}/dev-data/data/tours-simple.json`, JSON.stringify(tours), error => {});
-
-    response.status (200)
-    .json ({
-        status: "success",
-        data: updatedTour
-    });
-}
-
-const deleteTour = (request, response) =>
-{
-    
-    let tourToBeRemoved = tours.find (tour => tour.id == request.params.id);
-
-    if (!tourToBeRemoved)
-        return response.status (400).json ({ status: "failed", message: "Invalid Id" });
-    
-    tours = tours.filter (tour => tour.id !== tourToBeRemoved.id);
-    fileSystem.writeFile (`${__dirname}/dev-data/data/tours-simple.json`, JSON.stringify(tours), error => {});
-
-    response.status (204)
-    .json ({
-        status: "success",
-        data: null
-    });
-};
-
-const getAllUsers = (request, response) =>
-{
-    response.status(500).json ({
-        status: "error", 
-        message: "This route is not yet defined."
-    });   
-}
-
-const createUser = (request, response) =>
-{
-    response.status(500).json ({
-        status: "error", 
-        message: "This route is not yet defined."
-    });   
-}
-
-const getUser = (request, response) =>
-{
-    response.status(500).json ({
-        status: "error", 
-        message: "This route is not yet defined."
-    });   
-}
-
-const updateUser = (request, response) =>
-{
-    response.status(500).json ({
-        status: "error", 
-        message: "This route is not yet defined."
-    });   
-}
-
-const deleteUser = (request, response) =>
-{
-    response.status(500).json ({
-        status: "error", 
-        message: "This route is not yet defined."
-    });   
-}
 /*
 app.get ('/api/tours', getAllTours);
 app.get ('/api/tours/:id', getTour);
@@ -157,33 +39,7 @@ app.delete ('/api/tours/:id', deleteTour);
 /*----------------------------------------------------------
     3 - Routes
 -----------------------------------------------------------*/
-const tourRouter = express.Router ();
-const userRouter = express.Router ();
-
-tourRouter.route ('/')
-    .get (getAllTours)
-    .post (createTour);
-
-tourRouter.route('/:id')
-    .patch (updateTour)
-    .delete (deleteTour);
-
-userRouter.route ('/')
-    .get (getAllUsers)
-    .post (createUser);
-
-userRouter.route ('/:id')
-    .get (getUser)
-    .patch (updateUser)
-    .delete (deleteUser);
-
 app.use ('/api/tours', tourRouter);
 app.use ('/api/users', userRouter);    
-/*----------------------------------------------------------
-    4 - Server Start Settings
------------------------------------------------------------*/
-const PORT = 3000;
-app.listen(PORT, () => 
-{
-    console.log (`App running on PORT: ${PORT}.`);
-});
+
+module.exports = app;
