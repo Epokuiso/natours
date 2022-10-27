@@ -107,7 +107,45 @@ const deleteTour = (request, response) =>
     });
 };
 
+const getAllUsers = (request, response) =>
+{
+    response.status(500).json ({
+        status: "error", 
+        message: "This route is not yet defined."
+    });   
+}
 
+const createUser = (request, response) =>
+{
+    response.status(500).json ({
+        status: "error", 
+        message: "This route is not yet defined."
+    });   
+}
+
+const getUser = (request, response) =>
+{
+    response.status(500).json ({
+        status: "error", 
+        message: "This route is not yet defined."
+    });   
+}
+
+const updateUser = (request, response) =>
+{
+    response.status(500).json ({
+        status: "error", 
+        message: "This route is not yet defined."
+    });   
+}
+
+const deleteUser = (request, response) =>
+{
+    response.status(500).json ({
+        status: "error", 
+        message: "This route is not yet defined."
+    });   
+}
 /*
 app.get ('/api/tours', getAllTours);
 app.get ('/api/tours/:id', getTour);
@@ -119,7 +157,6 @@ app.delete ('/api/tours/:id', deleteTour);
 /*----------------------------------------------------------
     3 - Routes
 -----------------------------------------------------------*/
-
 app.route ('/api/tours')
     .get (getAllTours)
     .post (createTour);
@@ -129,6 +166,15 @@ app.route('/api/tours/:id')
     .patch (updateTour)
     .delete (deleteTour);
 
+
+app.route ('/api/users')
+    .get (getAllUsers)
+    .post (createUser);
+
+app.route ('/api/users/:id')
+    .get (getUser)
+    .patch (updateUser)
+    .delete (deleteUser);
 /*----------------------------------------------------------
     4 - Server Start Settings
 -----------------------------------------------------------*/
