@@ -1,8 +1,14 @@
 const express = require ('express');
 const fileSystem = require('fs');
+const morgan = require('morgan');
 
 const app = express ();
 
+
+/*----------------------------------------------------------
+    1 - Middlewares
+-----------------------------------------------------------*/
+app.use (morgan ('dev'));
 app.use (express.json());
 
 app.use ((request, response, next) =>
@@ -18,7 +24,9 @@ app.use ((request, response, next) =>
 });
 
 let tours = JSON.parse(fileSystem.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`));
-
+/*----------------------------------------------------------
+    2 - Route Handlers 
+-----------------------------------------------------------*/
 const getAllTours = (request, response) => 
 {
     response.status (200).json ({
@@ -108,6 +116,10 @@ app.patch ('/api/tours/:id', updateTour);
 app.delete ('/api/tours/:id', deleteTour);
 */
 
+/*----------------------------------------------------------
+    3 - Routes
+-----------------------------------------------------------*/
+
 app.route ('/api/tours')
     .get (getAllTours)
     .post (createTour);
@@ -117,6 +129,9 @@ app.route('/api/tours/:id')
     .patch (updateTour)
     .delete (deleteTour);
 
+/*----------------------------------------------------------
+    4 - Server Start Settings
+-----------------------------------------------------------*/
 const PORT = 3000;
 app.listen(PORT, () => 
 {
