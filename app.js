@@ -5,32 +5,18 @@ const app = express ();
 
 app.use (express.json());
 
-/*
-app.get ('/', (request, response) =>
-{
-    
-    response
-        .status (200)
-        .json ({message: 'Hello from the server side.', app: 'Natours'});
-}); 
-
-*/
-
 let tours = JSON.parse(fileSystem.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`));
 
-
-app.get ('/api/tours', (request, response) => 
+const getAllTours = (request, response) => 
 {
-    response
-        .status (200)
-        .json ({
-            status: "success",
-            results: tours.length,
-            data: tours 
-        });
-});
+    response.status (200).json ({
+        status: "success",
+        results: tours.length,
+        data: tours 
+    });
+}
 
-app.get ('/api/tours/:id', (request, response) => 
+const getTour = (request, response) => 
 {
     const { id } = request.params;
     const requestedTour = tours.find (tour => tour.id == id);
@@ -38,9 +24,9 @@ app.get ('/api/tours/:id', (request, response) =>
     if (requestedTour)
         return response.status (200).json ({ status: "success", data: requestedTour });
     response.status (400).json ({ status: "failed", message: "Invalid Id" });
-});
+}
 
-app.post ('/api/tours', (request, response) =>
+const createTour = (request, response) =>
 {
     const newTourId = tours[tours.length - 1].id + 1;
     const newTour = { id: newTourId, ...request.body };
@@ -54,9 +40,9 @@ app.post ('/api/tours', (request, response) =>
             data: newTour 
         });
     });
-});
+}
 
-app.patch ('/api/tours/:id', (request, response) =>
+const updateTour = (request, response) =>
 {
     
     const propertiesToUpdate = Object.keys (request.body);
@@ -80,9 +66,9 @@ app.patch ('/api/tours/:id', (request, response) =>
         status: "success",
         data: updatedTour
     });
-});
+}
 
-app.delete ('/api/tours/:id', (request, response) =>
+const deleteTour = (request, response) =>
 {
     
     let tourToBeRemoved = tours.find (tour => tour.id == request.params.id);
@@ -98,9 +84,25 @@ app.delete ('/api/tours/:id', (request, response) =>
         status: "success",
         data: null
     });
-});
+};
 
 
+/*
+app.get ('/api/tours', getAllTours);
+app.get ('/api/tours/:id', getTour);
+app.post ('/api/tours', createTour);
+app.patch ('/api/tours/:id', updateTour);
+app.delete ('/api/tours/:id', deleteTour);
+*/
+
+app.route ('/api/tours')
+    .get (getAllTours)
+    .post (createTour);
+
+
+app.route('/api/tours/:id')
+    .patch (updateTour)
+    .delete(deleteTour);
 
 const PORT = 3000;
 app.listen(PORT, () => 
