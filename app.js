@@ -157,24 +157,28 @@ app.delete ('/api/tours/:id', deleteTour);
 /*----------------------------------------------------------
     3 - Routes
 -----------------------------------------------------------*/
-app.route ('/api/tours')
+const tourRouter = express.Router ();
+const userRouter = express.Router ();
+
+tourRouter.route ('/')
     .get (getAllTours)
     .post (createTour);
 
-
-app.route('/api/tours/:id')
+tourRouter.route('/:id')
     .patch (updateTour)
     .delete (deleteTour);
 
-
-app.route ('/api/users')
+userRouter.route ('/')
     .get (getAllUsers)
     .post (createUser);
 
-app.route ('/api/users/:id')
+userRouter.route ('/:id')
     .get (getUser)
     .patch (updateUser)
     .delete (deleteUser);
+
+app.use ('/api/tours', tourRouter);
+app.use ('/api/users', userRouter);    
 /*----------------------------------------------------------
     4 - Server Start Settings
 -----------------------------------------------------------*/
