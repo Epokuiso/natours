@@ -16,7 +16,7 @@ app.get ('/', (request, response) =>
 
 */
 
-const tours = JSON.parse(fileSystem.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`));
+let tours = JSON.parse(fileSystem.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`));
 
 
 app.get ('/api/tours', (request, response) => 
@@ -80,8 +80,27 @@ app.patch ('/api/tours/:id', (request, response) =>
         status: "success",
         data: updatedTour
     });
-
 });
+
+app.delete ('/api/tours/:id', (request, response) =>
+{
+    
+    let tourToBeRemoved = tours.find (tour => tour.id == request.params.id);
+
+    if (!tourToBeRemoved)
+        return response.status (400).json ({ status: "failed", message: "Invalid Id" });
+    
+    tours = tours.filter (tour => tour.id !== tourToBeRemoved.id);
+    fileSystem.writeFile (`${__dirname}/dev-data/data/tours-simple.json`, JSON.stringify(tours), error => {});
+
+    response.status (204)
+    .json ({
+        status: "success",
+        data: null
+    });
+});
+
+
 
 const PORT = 3000;
 app.listen(PORT, () => 
