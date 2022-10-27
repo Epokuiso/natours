@@ -5,6 +5,18 @@ const app = express ();
 
 app.use (express.json());
 
+app.use ((request, response, next) =>
+{
+    console.log ("Hello from the middleware.");
+    next ();
+});
+
+app.use ((request, response, next) =>
+{
+    request.requestedTime = new Date ().toISOString();
+    next ();
+});
+
 let tours = JSON.parse(fileSystem.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`));
 
 const getAllTours = (request, response) => 
@@ -12,6 +24,7 @@ const getAllTours = (request, response) =>
     response.status (200).json ({
         status: "success",
         results: tours.length,
+        requestedTime: request.requestedTime,
         data: tours 
     });
 }
@@ -102,7 +115,7 @@ app.route ('/api/tours')
 
 app.route('/api/tours/:id')
     .patch (updateTour)
-    .delete(deleteTour);
+    .delete (deleteTour);
 
 const PORT = 3000;
 app.listen(PORT, () => 
