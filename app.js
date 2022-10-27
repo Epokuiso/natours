@@ -33,7 +33,7 @@ app.get ('/api/tours', (request, response) =>
 app.get ('/api/tours/:id', (request, response) => 
 {
     const { id } = request.params;
-    const requestedTour = tours.find (element => element.id == id);
+    const requestedTour = tours.find (tour => tour.id == id);
 
     if (requestedTour)
         return response.status (200).json ({ status: "success", data: requestedTour });
@@ -54,6 +54,33 @@ app.post ('/api/tours', (request, response) =>
             data: newTour 
         });
     });
+});
+
+app.patch ('/api/tours/:id', (request, response) =>
+{
+    
+    const propertiesToUpdate = Object.keys (request.body);
+    let updatedTour = tours.find (tour => tour.id == request.params.id);
+
+    if (!updatedTour)
+        return response.status (400).json ({ status: "failed", message: "Invalid Id" });
+    
+    propertiesToUpdate.forEach (property => 
+    {
+        if (property == 'duration')
+            updatedTour[property] = +request.body[property]
+        updatedTour[property] = request.body[property]    
+    });
+    tours[tours.findIndex(tour => tour.id == updatedTour.id)] = updatedTour;
+    
+    fileSystem.writeFile (`${__dirname}/dev-data/data/tours-simple.json`, JSON.stringify(tours), error => {});
+
+    response.status (200)
+    .json ({
+        status: "success",
+        data: updatedTour
+    });
+
 });
 
 const PORT = 3000;
