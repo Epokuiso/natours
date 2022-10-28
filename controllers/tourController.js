@@ -2,6 +2,16 @@ const fileSystem = require ('fs');
 
 let tours = JSON.parse(fileSystem.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`));
 
+const checkTourId = (request, response, next, parameterValue) =>
+{
+    if (parameterValue >= tours.length)
+        return response.status (404).json ({
+            status: 'fail',
+            message: 'Invalid ID'
+        });
+    next ();
+}
+
 const getAllTours = (request, response) => 
 {
     response.status (200).json ({
@@ -83,6 +93,7 @@ const deleteTour = (request, response) =>
 };
 
 module.exports = { 
+    checkTourId,
     getAllTours, 
     getTour,
     createTour,

@@ -1,11 +1,14 @@
 const router = require ('express').Router();
 const { 
+    checkTourId,
     getAllTours, 
     getTour, 
     createTour, 
     updateTour, 
     deleteTour 
 } = require ('../controllers/tourController');
+
+router.param ('id', checkTourId);
 
 router.route ('/')
     .get (getAllTours)
