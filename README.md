@@ -1,6 +1,6 @@
 # Natours 
 This is a project from the current NodeJS course that I'm taking, the **Node.js, Express, MongoDB & More: The Complete Bootcamp 2022** course.
-Check out the instructor: @jonasschmedtmann 
+Check out the instructor: [@jonasschmedtmann](https://github.com/jonasschmedtmann)
 
 ## Objectives
 1. Be building my own fast, scalable, and powerful Node.js RESTful APIs or web applications;
