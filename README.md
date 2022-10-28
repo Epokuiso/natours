@@ -23,5 +23,6 @@ Check out the instructor: @jonasschmedtmann
 
 - Some of the code may have a different approach from the one taken by the instructor.
 
+## Enjoy The Ride!
 
 
