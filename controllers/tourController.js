@@ -12,6 +12,18 @@ const checkTourId = (request, response, next, parameterValue) =>
     next ();
 }
 
+const checkBody = (request, response, next) =>
+{
+    const { name, duration } = request.body;
+    if (!name  && !duration)
+        return response.status (400).json ({
+            status: 'fail',
+            message: 'Missing parameters'
+        });
+    console.log ('The Middleware is booming.');
+    next ();
+}
+
 const getAllTours = (request, response) => 
 {
     response.status (200).json ({
@@ -94,6 +106,7 @@ const deleteTour = (request, response) =>
 
 module.exports = { 
     checkTourId,
+    checkBody,
     getAllTours, 
     getTour,
     createTour,
