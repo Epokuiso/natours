@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "development": "nodemon server.js",
-    "production" : "NODE_ENV=production nodemon server.js",
+    "production": "NODE_ENV=production nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -16,7 +16,8 @@
     "nodejs",
     "express",
     "javascript",
-    "mongodb"
+    "mongodb",
+    "mongoose"
   ],
   "author": "Jonas Schmedtmann",
   "learner": "Emanuel Moura (Epokuiso)",
@@ -28,6 +29,7 @@
   "dependencies": {
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "mongoose": "^5.13.15",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
