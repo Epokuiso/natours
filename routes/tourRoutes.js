@@ -1,7 +1,6 @@
 const router = require ('express').Router();
 
 const { 
-    checkTourId,
     checkBody,
     getAllTours, 
     getTour, 
@@ -10,7 +9,6 @@ const {
     deleteTour 
 } = require ('../controllers/tourController');
 
-router.param ('id', checkTourId);
 
 router.route ('/')
     .get (getAllTours)

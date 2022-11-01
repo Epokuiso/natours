@@ -1,19 +1,7 @@
-const fileSystem = require ('fs');
-
-let tours = JSON.parse(fileSystem.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`));
-
-const checkTourId = (request, response, next, parameterValue) =>
-{
-    if (parameterValue >= tours.length)
-        return response.status (404).json ({
-            status: 'fail',
-            message: 'Invalid ID'
-        });
-    next ();
-}
+const TourModel = require ('../models/tourModel');
 
 const checkBody = (request, response, next) =>
-{
+{/*
     const { name, duration } = request.body;
     if (!name  && !duration)
         return response.status (400).json ({
@@ -21,31 +9,33 @@ const checkBody = (request, response, next) =>
             message: 'Missing parameters'
         });
     console.log ('The Middleware is booming.');
+    */
     next ();
 }
 
 const getAllTours = (request, response) => 
 {
     response.status (200).json ({
-        status: "success",
+        status: "success"/*,
         results: tours.length,
         requestedTime: request.requestedTime,
-        data: tours 
+        data: tours */
     });
 }
 
 const getTour = (request, response) => 
-{
+{/*
     const { id } = request.params;
     const requestedTour = tours.find (tour => tour.id == id);
 
     if (requestedTour)
         return response.status (200).json ({ status: "success", data: requestedTour });
-    response.status (400).json ({ status: "failed", message: "Invalid Id" });
+    response.status (400).json ({ status: "failed", message: "Invalid Id" });*/
 }
 
 const createTour = (request, response) =>
 {
+    /*
     const newTourId = tours[tours.length - 1].id + 1;
     const newTour = { id: newTourId, ...request.body };
     tours.push (newTour);
@@ -58,11 +48,12 @@ const createTour = (request, response) =>
             data: newTour 
         });
     });
+    */
 }
 
 const updateTour = (request, response) =>
 {
-    
+    /*
     const propertiesToUpdate = Object.keys (request.body);
     let updatedTour = tours.find (tour => tour.id == request.params.id);
 
@@ -83,12 +74,12 @@ const updateTour = (request, response) =>
     .json ({
         status: "success",
         data: updatedTour
-    });
+    });*/
 }
 
 const deleteTour = (request, response) =>
 {
-    
+    /*
     let tourToBeRemoved = tours.find (tour => tour.id == request.params.id);
 
     if (!tourToBeRemoved)
@@ -101,11 +92,10 @@ const deleteTour = (request, response) =>
     .json ({
         status: "success",
         data: null
-    });
+    });*/
 };
 
 module.exports = { 
-    checkTourId,
     checkBody,
     getAllTours, 
     getTour,
