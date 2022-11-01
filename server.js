@@ -34,6 +34,15 @@ const tourSchema = new mongoose.Schema ({
 
 const TourModel = mongoose.model ('Tour', tourSchema);
 
+const testTour = new TourModel ({
+    name: 'NodeJS & MongoDB',
+    price: 100
+});
+
+testTour.save ()
+    .then (document => console.log (document))
+    .catch (error => console.log (error));
+
 const PORT = process.env.PORT;
 app.listen(PORT, () => 
 {
