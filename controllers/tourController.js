@@ -83,22 +83,24 @@ const updateTour = async (request, response) =>
     }
 }
 
-const deleteTour = (request, response) =>
+const deleteTour = async (request, response) =>
 {
-    /*
-    let tourToBeRemoved = tours.find (tour => tour.id == request.params.id);
+    try
+    {
+        await TourModel.findByIdAndDelete (request.params.id);
 
-    if (!tourToBeRemoved)
-        return response.status (400).json ({ status: "failed", message: "Invalid Id" });
-    
-    tours = tours.filter (tour => tour.id !== tourToBeRemoved.id);
-    fileSystem.writeFile (`${__dirname}/../dev-data/data/tours-simple.json`, JSON.stringify(tours), error => {});
-
-    response.status (204)
-    .json ({
-        status: "success",
-        data: null
-    });*/
+        response.status (200).json ({
+            status: "success",
+            data: null
+        });
+    }
+    catch (error)
+    {   
+        response.status (400).json ({
+            status: "failed",
+            message: "Error!Could not delete the data!"
+        });
+    }
 };
 
 module.exports = { 
