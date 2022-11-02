@@ -1,18 +1,5 @@
 const TourModel = require ('../models/tourModel');
 
-const checkBody = (request, response, next) =>
-{/*
-    const { name, duration } = request.body;
-    if (!name  && !duration)
-        return response.status (400).json ({
-            status: 'fail',
-            message: 'Missing parameters'
-        });
-    console.log ('The Middleware is booming.');
-    */
-    next ();
-}
-
 const getAllTours = (request, response) => 
 {
     response.status (200).json ({
@@ -33,22 +20,24 @@ const getTour = (request, response) =>
     response.status (400).json ({ status: "failed", message: "Invalid Id" });*/
 }
 
-const createTour = (request, response) =>
+const createTour = async (request, response) =>
 {
-    /*
-    const newTourId = tours[tours.length - 1].id + 1;
-    const newTour = { id: newTourId, ...request.body };
-    tours.push (newTour);
-
-    fileSystem.writeFile (`${__dirname}/../dev-data/data/tours-simple.json`, JSON.stringify(tours), error => 
+    try 
     {
-        response.status (201)
-        .json ({
+        const newTour = await TourModel.create (request.body);
+
+        response.status (201).json ({
             status: "success",
             data: newTour 
         });
-    });
-    */
+    }
+    catch (error)
+    {
+        response.status (400).json ({
+            status: "failed",
+            message: "Invalid data sent"
+        });
+    }
 }
 
 const updateTour = (request, response) =>
@@ -96,7 +85,6 @@ const deleteTour = (request, response) =>
 };
 
 module.exports = { 
-    checkBody,
     getAllTours, 
     getTour,
     createTour,

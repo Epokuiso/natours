@@ -1,7 +1,6 @@
 const router = require ('express').Router();
 
 const { 
-    checkBody,
     getAllTours, 
     getTour, 
     createTour, 
@@ -12,7 +11,7 @@ const {
 
 router.route ('/')
     .get (getAllTours)
-    .post (checkBody, createTour);
+    .post (createTour);
 
 router.route('/:id')
     .get (getTour)
