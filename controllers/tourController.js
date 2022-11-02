@@ -60,30 +60,27 @@ const createTour = async (request, response) =>
     }
 }
 
-const updateTour = (request, response) =>
+const updateTour = async (request, response) =>
 {
-    /*
-    const propertiesToUpdate = Object.keys (request.body);
-    let updatedTour = tours.find (tour => tour.id == request.params.id);
-
-    if (!updatedTour)
-        return response.status (400).json ({ status: "failed", message: "Invalid Id" });
-    
-    propertiesToUpdate.forEach (property => 
-    {
-        if (property == 'duration')
-            updatedTour[property] = +request.body[property]
-        updatedTour[property] = request.body[property]    
+    const tourToUpdate = await TourModel.findByIdAndUpdate(request.params.id, request.body, {
+        new: true,
+        runValidators: true
     });
-    tours[tours.findIndex(tour => tour.id == updatedTour.id)] = updatedTour;
-    
-    fileSystem.writeFile (`${__dirname}/../dev-data/data/tours-simple.json`, JSON.stringify(tours), error => {});
 
-    response.status (200)
-    .json ({
-        status: "success",
-        data: updatedTour
-    });*/
+    try 
+    {
+        response.status (200).json ({
+            status: "success",
+            data: tourToUpdate
+        });
+    }
+    catch (error)
+    {
+        response.status (400).json ({
+            status: "failed",
+            message: "Error!Verify your parameters"
+        })
+    }
 }
 
 const deleteTour = (request, response) =>
