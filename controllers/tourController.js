@@ -4,7 +4,11 @@ const getAllTours = async (request, response) =>
 {
     try 
     {
-        const tours = await TourModel.find()     
+        const queryObject = {...request.query};
+        const excludeFields = ['page', 'limit', 'sort', 'fields'];
+        excludeFields.forEach (field => delete queryObject [field]);
+        
+        const tours = await TourModel.find(queryObject);     
 
         response.status (200).json ({
             status: "success",
