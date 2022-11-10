@@ -4,11 +4,20 @@ const getAllTours = async (request, response) =>
 {
     try 
     {
+        // Filtering 
         const queryObject = {...request.query};
         const excludeFields = ['page', 'limit', 'sort', 'fields'];
         excludeFields.forEach (field => delete queryObject [field]);
         
-        const tours = await TourModel.find(queryObject);     
+        // Advanced Filtering
+        let queryString = JSON.stringify (queryObject);
+        queryString = queryString.replace (/\b(gte| gt | lte | lt)\b/g, match => `$${match}`);
+
+        // Execute Query
+        const query = TourModel.find(JSON.parse (queryString));
+        
+        
+        const tours = await query;
 
         response.status (200).json ({
             status: "success",
