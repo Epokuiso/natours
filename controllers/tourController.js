@@ -13,10 +13,20 @@ const getAllTours = async (request, response) =>
         let queryString = JSON.stringify (queryObject);
         queryString = queryString.replace (/\b(gte| gt | lte | lt)\b/g, match => `$${match}`);
 
+        let query = TourModel.find(JSON.parse (queryString));
+
+        // Sorting 
+         if (request.query.sort)
+         {
+            const fieldsToSortBy = request.query.sort.split (',').join (' ');
+            query = query.sort (fieldsToSortBy);
+         }
+         else
+        {
+            query = query.sort('-createdAt');
+        }
+
         // Execute Query
-        const query = TourModel.find(JSON.parse (queryString));
-        
-        
         const tours = await query;
 
         response.status (200).json ({
