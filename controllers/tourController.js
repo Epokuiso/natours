@@ -22,9 +22,7 @@ const getAllTours = async (request, response) =>
             query = query.sort (fieldsToSortBy);
          }
          else
-        {
             query = query.sort('-createdAt');
-        }
 
         // Execute Query
         const tours = await query;
